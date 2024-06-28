@@ -57,11 +57,6 @@ func (u User) Hash() uint64 {
 
 	value := reflect.ValueOf(u)
 	for i := 0; i < value.NumField(); i++ {
-		// v := value.FieldByIndex([]int{i})
-		// fmt.Printf("v[%v]=%v\n", i, v)
-		// t := value.FieldByIndex([]int{i}).Kind()
-		// fmt.Printf("t=[%v]%v\n", i, t.String())
-
 		hash += structHash(value.FieldByIndex([]int{i}))
 	}
 
@@ -72,22 +67,14 @@ func structHash(v reflect.Value) uint64 {
 	var hash uint64
 
 	t := v.Kind()
-	// fmt.Printf("v=%+v\n", v)
-	// fmt.Printf("kind=%v\n", t)
 
 	switch t {
 	case reflect.Int:
 		hash = cache.HashInt64(v.Int())
-		// fmt.Println("whe are in INT case")
 	case reflect.String:
 		hash = cache.HashStr(v.String())
-		// fmt.Println("whe are in  STRING case", hash)
 	case reflect.Array:
-		// fmt.Println("whe are in ARRAY case")
-		// arr := reflect.ValueOf(v)
-		// fmt.Printf("in ARRAY case:\n %v\n", arr.FieldByIndex([]int{2}).String())
 		for i := 0; i < v.Len(); i++ {
-			// fmt.Println(v.Index(i))
 			hash += structHash(v.Index(i))
 		}
 	}
