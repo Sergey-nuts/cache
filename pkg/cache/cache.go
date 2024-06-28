@@ -46,7 +46,7 @@ func newBucket[K Hashable, V any]() bucket[K, V] {
 	}
 }
 
-// Set adds pair key,value in cache
+// Set adds pair key, value in cache
 func (c *cache[K, V]) Set(key K, value V) error {
 	hash := key.Hash()
 	n := hash % uint64(len(c.bs))
